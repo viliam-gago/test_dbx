@@ -1,0 +1,30 @@
+name: Run a notebook in databricks on PRs
+
+on:
+ workflow_dispatch:
+
+env:
+ DATABRICKS_HOST: https://adb-8718332331325895.15.azuredatabricks.net
+
+jobs:
+ run-databricks-notebook:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout repo
+       uses: actions/checkout@v2
+    - name: Generate and save AAD Token
+        run: |
+          echo "DATABRICKS_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+          https://login.microsoftonline.com/${{ secrets.AZURE_SP_TENANT_ID }}/oauth2/v2.0/token \
+          -d 'client_id=${{ secrets.AZURE_SP_APPLICATION_ID }}' \
+          -d 'grant_type=client_credentials' \
+          -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
+          -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
+     - name: Run a databricks notebook
+       uses: databricks/run-notebook@v0
+       with:
+         local-notebook-path: ingestion/1.ingest_circuits_file.py
+         databricks-host: https://adb-8718332331325895.15.azuredatabricks.net/
+         databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+         git-commit: ${{ github.event.pull_request.head.sha }}
+         existing-cluster-id: 0703-104318-wm62xcqc
