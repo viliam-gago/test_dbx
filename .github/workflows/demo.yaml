@@ -1,9 +1,12 @@
 name: AA
 
-on: 
-  push:
-    branches:
-      - GA_test
+on:
+  workflow_dispatch
+
+# on: 
+#   push:
+#     branches:
+#       - GA_test
 
 env:
   DATABRICKS_HOST: https://adb-8718332331325895.15.azuredatabricks.net
