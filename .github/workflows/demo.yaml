@@ -28,7 +28,8 @@ jobs:
       - name: Run a databricks notebook
         uses: databricks/run-notebook@v0
         with:
-          local-notebook-path: ingestion/1.ingest_circuits_file.py
+          # local-notebook-path: ingestion/1.ingest_circuits_file.py
+          workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           git-commit: ${{ github.event.pull_request.head.sha }}
