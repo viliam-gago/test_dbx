@@ -10,7 +10,7 @@ on:
 
 jobs:
   bx-token:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Generate and save AAD Token
         run: |
