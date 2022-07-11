@@ -46,6 +46,7 @@ jobs:
     steps:
       - name: echo-token
         run: echo ${{needs.generate-databricks-token.outputs.token}}    
+        env:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: ${{ matrix.ingestion }}
@@ -53,7 +54,7 @@ jobs:
         with:
           workspace-notebook-path: /formula1/ingestion/${{ matrix.ingestion }}
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
-          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+          databricks-token: ${{ needs.generate-databricks-token.outputs.token }}
           git-commit: ${{ github.event.pull_request.head.sha }}
           existing-cluster-id: 0703-104318-wm62xcqc
 
