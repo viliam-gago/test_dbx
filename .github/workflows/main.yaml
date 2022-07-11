@@ -27,7 +27,7 @@ jobs:
       # - id: set-output
       #   run: | echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
       - id: set-output
-        run: | echo "::set-output name=token::${{ env.TOKEN }}"
+        run: echo "::set-output name=token::${{ env.TOKEN }}"
       - name: print-token 
         run: echo ${{ env.token }}
       - name: print-output
