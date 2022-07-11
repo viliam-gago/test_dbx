@@ -20,7 +20,8 @@ jobs:
           -d 'client_id=${{ secrets.AZURE_SP_APPLICATION_ID }}' \
           -d 'grant_type=client_credentials' \
           -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
-          -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
+          -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV \
+          echo ${{ GITHUB_ENV }}
       
   run-databricks-notebook:
     runs-on: ubuntu-latest
