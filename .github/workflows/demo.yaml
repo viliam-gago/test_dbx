@@ -12,6 +12,12 @@ on:
 jobs:
   run-databricks-notebook:
     runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        ingest_layer: 
+          - 1.ingest_circuits_file
+          - 2.ingest_races_file
+          - 3.ingest_constructors_file
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -28,8 +34,7 @@ jobs:
       - name: Run a databricks notebook
         uses: databricks/run-notebook@v0
         with:
-          # local-notebook-path: ingestion/1.ingest_circuits_file.py
-          workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
+          workspace-notebook-path: /formula1/ingestion/${{ matrix.ingest_layer }}
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           git-commit: ${{ github.event.pull_request.head.sha }}
