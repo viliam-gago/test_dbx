@@ -45,8 +45,8 @@ jobs:
           - 2.ingest_races_file
           - 3.ingest_constructors_file
     steps:
-      -name: echo-token
-      - run: echo ${{needs.generate-databricks-token.outputs.token}}    
+      - name: echo-token
+        run: echo ${{needs.generate-databricks-token.outputs.token}}    
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: ${{ matrix.ingestion }}
