@@ -6,11 +6,12 @@ name: BB
 on: 
   push:
 
-
-
 jobs:
-  bx-token:
+  
+  generate-databricks-token:
     runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.set-output.outputs.token }}
     steps:
       - name: Generate and save AAD Token
         run: |
@@ -20,10 +21,14 @@ jobs:
           -d 'grant_type=client_credentials' \
           -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
           -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
-      - name: print token
-        run: 
-          echo ${{ secrets.DATABRICKS_TOKEN }}
+      
+      - id: set-output
+        run: echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
 
-  # ingest:
-  #   uses: ./.github/workflows/ingest.yaml
+  ingest:
+    runs-on: ubuntu-latest
+    needs: generate-databricks-token
+    steps:
+      - run: echo ${{needs.generate-databricks-token.outputs.token}}    
+
 
