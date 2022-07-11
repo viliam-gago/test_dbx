@@ -21,11 +21,15 @@ jobs:
           -d 'grant_type=client_credentials' \
           -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
           -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
-      
+      - name: token-to-env
+        env: 
+          TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      # - id: set-output
+      #   run: | echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
       - id: set-output
-        run: echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
+        run: | echo "::set-output name=token::${{ env.TOKEN }}"
       - name: print-token 
-        run: echo ${{ secrets.DATABRICKS_TOKEN }}
+        run: echo ${{ env.token }}
       - name: print-output
         run: echo ${{ steps.set-output.outputs.token }}
         
