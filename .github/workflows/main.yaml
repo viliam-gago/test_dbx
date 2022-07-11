@@ -46,7 +46,6 @@ jobs:
     steps:
       - name: echo-token
         run: echo ${{needs.generate-databricks-token.outputs.token}}    
-        env:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: ${{ matrix.ingestion }}
