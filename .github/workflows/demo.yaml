@@ -12,8 +12,8 @@ jobs:
 
   create-databricks-token:
     runs-on: ubuntu-latest
-    outputs:
-      databricks-token: ${{ DATABRICKS_TOKEN }}
+    # outputs:
+    #   databricks-token: ${{ DATABRICKS_TOKEN }}
     steps:
       - name: Generate and save AAD Token
         run: |
@@ -24,7 +24,7 @@ jobs:
           -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
           -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV 
       - name: Print env var
-        run: echo ${{ DATABRICKS_TOKEN }} 
+        run: echo ${{ env.GITHUB_ENV }} 
       
   run-databricks-notebook:
     runs-on: ubuntu-latest
