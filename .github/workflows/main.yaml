@@ -3,10 +3,9 @@ name: BB
 on:
   workflow_dispatch
 
-# on: 
-#   push:
-#     branches:
-#       - workflow_templates
+on: 
+  push:
+
 
 
 jobs:
