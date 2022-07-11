@@ -22,7 +22,7 @@ jobs:
           -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
       - name: print token
         run: 
-          echo $ {{ secrets.DATABRICKS_TOKEN }}
+          echo ${{ secrets.DATABRICKS_TOKEN }}
 
   # ingest:
   #   uses: ./.github/workflows/ingest.yaml
