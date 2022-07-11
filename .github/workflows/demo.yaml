@@ -8,13 +8,14 @@ on:
 #     branches:
 #       - GA_test
 
-jobs:
 
-  create-databricks-token:
+jobs:
+  run-databricks-notebook:
     runs-on: ubuntu-latest
-    # outputs:
-    #   databricks-token: ${{ DATABRICKS_TOKEN }}
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      
       - name: Generate and save AAD Token
         run: |
           echo "DATABRICKS_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
@@ -22,16 +23,8 @@ jobs:
           -d 'client_id=${{ secrets.AZURE_SP_APPLICATION_ID }}' \
           -d 'grant_type=client_credentials' \
           -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
-          -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV 
-      - name: Print env var
-        run: echo ${{ env.GITHUB_ENV }} 
+          -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
       
-  run-databricks-notebook:
-    runs-on: ubuntu-latest
-    needs: create-databricks-token
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
       - name: Run a databricks notebook
         uses: databricks/run-notebook@v0
         with:
