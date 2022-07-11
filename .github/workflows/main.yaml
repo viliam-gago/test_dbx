@@ -1,0 +1,16 @@
+name: AA
+
+# on:
+#   workflow_dispatch
+
+on: 
+  push:
+    branches:
+      - GA_test
+
+
+jobs:
+  
+  ingest:
+    uses: viliam-gago/test_dbx/.github/workflows/ingest.yaml
+

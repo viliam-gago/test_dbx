@@ -1,20 +1,22 @@
-name: AA
+name: Ingest
 
 # on:
 #   workflow_dispatch
 
-on: 
-  push:
-    branches:
-      - GA_test
+# on: 
+#   push:
+#     branches:
+#       - GA_test
 
+on:
+  workflow_call:
 
 jobs:
   run-databricks-notebook:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        ingestion: 
+        notebooks: 
           - 1.ingest_circuits_file
           - 2.ingest_races_file
           - 3.ingest_constructors_file
@@ -32,7 +34,7 @@ jobs:
           -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
           -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
       
-      - name: Run ingest layer
+      - name: ${{ matrix.ingestion }}
         uses: databricks/run-notebook@v0
         with:
           workspace-notebook-path: /formula1/ingestion/${{ matrix.ingestion }}
@@ -41,11 +43,4 @@ jobs:
           git-commit: ${{ github.event.pull_request.head.sha }}
           existing-cluster-id: 0703-104318-wm62xcqc
 
-      - name: Run test_layer
-        uses: databricks/run-notebook@v0
-        with:
-          workspace-notebook-path: /formula1/test/${{ matrix.testing }}
-          databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
-          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          git-commit: ${{ github.event.pull_request.head.sha }}
-          existing-cluster-id: 0703-104318-wm62xcqc
+
