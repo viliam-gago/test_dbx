@@ -12,5 +12,5 @@ on:
 jobs:
   
   ingest:
-    uses: viliam-gago/test_dbx/.github/workflows/ingest.yaml@${{github.head_ref}}
+    uses: viliam-gago/test_dbx/.github/workflows/ingest.yaml
 
