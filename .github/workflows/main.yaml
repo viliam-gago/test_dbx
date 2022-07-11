@@ -6,7 +6,7 @@ name: AA
 on: 
   push:
     branches:
-      - GA_test
+      - workflow_templates
 
 
 jobs:
