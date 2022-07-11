@@ -1,7 +1,7 @@
 name: BB
 
-on:
-  workflow_dispatch
+# on:
+#   workflow_dispatch
 
 on: 
   push:
