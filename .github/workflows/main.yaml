@@ -24,6 +24,8 @@ jobs:
       
       - id: set-output
         run: echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
+      - name: print-token 
+        run: echo ${{ secrets.DATABRICKS_TOKEN }}
 
   ingest:
     runs-on: ubuntu-latest
