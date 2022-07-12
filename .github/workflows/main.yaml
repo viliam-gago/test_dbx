@@ -21,7 +21,7 @@ jobs:
         run: echo ${{ secrets.DBX_TOKEN }}    
      
       - name: echo-path
-        run: echo /formula1/ingestion/${{ matrix.ingestion }}
+        run: echo /formula1/ingestion/${{ matrix.notebook }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
