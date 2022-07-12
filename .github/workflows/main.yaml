@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       token: ${{ steps.set-output.outputs.token }}
+      t-output: ${{ steps.test-output.outputs.random_string }}
     steps:
       - name: Generate and save AAD Token
         run: |
@@ -27,12 +28,20 @@ jobs:
           TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       # - id: set-output
       #   run: | echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
+      
       - id: set-output
         run: echo "::set-output name=token::${{ env.TOKEN }}"
-      - name: print-token 
+      - id: set-test-output
+        run: echo "::set-output name=random_string::abcdefgh"
+
+      - name: print-token  
         run: echo ${{ env.token }}
       - name: print-output
         run: echo ${{ steps.set-output.outputs.token }}
+
+      - name: print-test-output
+        run: echo ${{ steps.set-test-output.outputs.random_string }}
+
         
   ingest:
     runs-on: ubuntu-latest
@@ -48,6 +57,10 @@ jobs:
         run: echo ${{needs.generate-databricks-token.outputs.token}}    
         # env:
         #   DATABRICKS_TOKEN: ${{needs.generate-databricks-token.outputs.token}}    
+      
+      - name: echo-test-output
+        run: echo ${{needs.generate-databricks-token.outputs.t-output}}    
+
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: ${{ matrix.ingestion }}
