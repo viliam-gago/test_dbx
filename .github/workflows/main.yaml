@@ -8,21 +8,6 @@ on:
 
 jobs:
   
-  generate-databricks-token:
-    runs-on: ubuntu-latest
-    outputs:
-      token: ${{ steps.set-output.outputs.token }}
-    steps:
-      
-      - id: set-output
-        run: echo "::set-output name=token::${{ secrets.DBX_TOKEN }}"
-
-      - name: print-output
-        run: |
-          echo ${{ steps.set-output.outputs.token }}
-          echo ${{ steps.set-output.outputs.token }} | sed 's/./& /g'
-
-
 
         
   ingest:
@@ -36,7 +21,7 @@ jobs:
           - 3.ingest_constructors_file
     steps:
       - name: echo-token
-        run: echo ${{needs.generate-databricks-token.outputs.token}}    
+        run: echo ${{ secrets.DBX_TOKEN }}    
         # env:
         #   DATABRICKS_TOKEN: ${{needs.generate-databricks-token.outputs.token}}    
       
