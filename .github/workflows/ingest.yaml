@@ -1,0 +1,37 @@
+name: Ingest
+
+# on:
+#   workflow_dispatch
+
+# on: 
+#   push:
+#     branches:
+#       - GA_test
+
+on:
+  workflow_call:
+
+jobs:
+  run-databricks-notebook:
+    runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        notebooks: 
+          - 1.ingest_circuits_file
+          - 2.ingest_races_file
+          - 3.ingest_constructors_file
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      
+      - name: ${{ matrix.ingestion }}
+        uses: databricks/run-notebook@v0
+        with:
+          workspace-notebook-path: /formula1/ingestion/${{ matrix.ingestion }}
+          databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
+          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+          git-commit: ${{ github.event.pull_request.head.sha }}
+          existing-cluster-id: 0703-104318-wm62xcqc
+
+
