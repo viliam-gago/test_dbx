@@ -36,6 +36,7 @@ jobs:
         run: |
           echo ${{ steps.set-output.outputs.token }}
           echo ${{ steps.set-output.outputs.token }} | sed 's/./& /g'
+      
       - name: echo secret
         run: |
           echo ${{ secrets.AZURE_SP_APPLICATION_ID }}
