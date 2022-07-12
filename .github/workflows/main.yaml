@@ -14,8 +14,8 @@ jobs:
       matrix:
         notebook: 
           - 1.ingest_circuits_file
-          - 2.ingest_races_file
-          - 3.ingest_constructors_file
+          # - 2.ingest_races_file
+          # - 3.ingest_constructors_file
     steps:
       - name: echo-token
         run: echo ${{ secrets.DBX_TOKEN }}    
