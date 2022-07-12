@@ -19,11 +19,9 @@ jobs:
     steps:
       - name: echo-token
         run: echo ${{ secrets.DBX_TOKEN }}    
-        # env:
-        #   DATABRICKS_TOKEN: ${{needs.generate-databricks-token.outputs.token}}    
-      
-      # - name: echo-test-output
-      #   run: echo ${{needs.generate-databricks-token.outputs.t-output}}    
+     
+      - name: echo-path
+        run: echo /formula1/ingestion/${{ matrix.ingestion }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
