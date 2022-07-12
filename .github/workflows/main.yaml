@@ -30,7 +30,7 @@ jobs:
       #   run: | echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
       
       - id: set-output
-        run: echo "::set-output name=token::${{ env.TOKEN }}"
+        run: echo "::set-output name=token::$DATABRICKS_TOKEN"
       - id: set-test-output
         run: echo "::set-output name=random_string::abcdefgh"
 
