@@ -1,4 +1,4 @@
-name: BB
+name: Token outside
 
 # on:
 #   workflow_dispatch
@@ -7,41 +7,9 @@ on:
   push:
 
 jobs:
-  
-  generate-databricks-token:
-    runs-on: ubuntu-latest
-    outputs:
-      token: ${{ steps.set-output.outputs.token }}
-      t-output: ${{ steps.test-output.outputs.random_string }}
-    steps:
-      - name: Generate and save AAD Token
-        run: |
-          echo "DATABRICKS_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
-          https://login.microsoftonline.com/${{ secrets.AZURE_SP_TENANT_ID }}/oauth2/v2.0/token \
-          -d 'client_id=${{ secrets.AZURE_SP_APPLICATION_ID }}' \
-          -d 'grant_type=client_credentials' \
-          -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
-          -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
-      
-
-      # - id: set-output
-      #   run: | echo "::set-output name=token::${{ secrets.DATABRICKS_TOKEN }}"
-      
-      - id: set-output
-        run: echo "::set-output name=token::$DATABRICKS_TOKEN"
-      - id: set-test-output
-        run: echo "::set-output name=random_string::abcdefgh"
-
-      - name: print-output
-        run: echo ${{ steps.set-output.outputs.token }}
-
-      - name: print-test-output
-        run: echo ${{ steps.set-test-output.outputs.random_string }}
-
-        
+     
   ingest:
     runs-on: ubuntu-latest
-    needs: generate-databricks-token
     strategy: 
       matrix:
         notebooks: 
@@ -50,12 +18,12 @@ jobs:
           - 3.ingest_constructors_file
     steps:
       - name: echo-token
-        run: echo ${{needs.generate-databricks-token.outputs.token}}    
+        run: echo ${{ secrets.DBX_TOKEN }}    
         # env:
         #   DATABRICKS_TOKEN: ${{needs.generate-databricks-token.outputs.token}}    
       
-      - name: echo-test-output
-        run: echo ${{needs.generate-databricks-token.outputs.t-output}}    
+      # - name: echo-test-output
+      #   run: echo ${{needs.generate-databricks-token.outputs.t-output}}    
 
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -64,9 +32,6 @@ jobs:
         with:
           workspace-notebook-path: /formula1/ingestion/${{ matrix.ingestion }}
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
-          databricks-token: ${{ env.DATABRICKS_TOKEN }}
+          databricks-token: ${{ secrets.DBX_TOKEN }}
           git-commit: ${{ github.event.pull_request.head.sha }}
           existing-cluster-id: 0703-104318-wm62xcqc
-
-
-#
