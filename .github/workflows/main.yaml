@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        notebooks: 
+        notebook: 
           - 1.ingest_circuits_file
           - 2.ingest_races_file
           - 3.ingest_constructors_file
@@ -28,7 +28,7 @@ jobs:
       - name: ${{ matrix.ingestion }}
         uses: databricks/run-notebook@v0
         with:
-          workspace-notebook-path: /formula1/ingestion/${{ matrix.ingestion }}
+          workspace-notebook-path: /formula1/ingestion/${{ matrix.notebook }}
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.DBX_TOKEN }}
           git-commit: ${{ github.event.pull_request.head.sha }}
