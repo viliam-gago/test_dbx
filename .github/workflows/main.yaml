@@ -43,7 +43,7 @@ jobs:
         run: echo ${{ steps.set-test-output.outputs.random_string }}
 
       - name: print env
-        run: echo $( DATABRICKS_TOKEN )
+        run: echo ${{ secrets.DATABRICKS_TOKEN }}
 
         
   ingest:
