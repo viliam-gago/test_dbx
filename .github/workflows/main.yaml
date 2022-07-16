@@ -45,7 +45,7 @@ jobs:
         with:
           # workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
           # workspace-notebook-path: /formula1/ingestion/${{ matrix.notebook }}
-          local-notebook-path: ../../ingestion/ingest_circuits_file
+          local-notebook-path: /ingestion/ingest_circuits_file
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.TESTING_SECRET }}
           git-commit: ${{ github.sha }}
