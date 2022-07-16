@@ -25,7 +25,7 @@ jobs:
           -d 'client_secret=${{ secrets.AZURE_SP_CLIENT_SECRET }}' |  jq -r  '.access_token')" >> $GITHUB_ENV
       
       - name: Save secret
-        run: gh secret set TESTING_SECRET --body "$DATABRICKS_TOKEN"
+        run: gh secret set TESTING_SECRET --body "$DATABRICKS_TOKEN" --repos test_dbx
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
