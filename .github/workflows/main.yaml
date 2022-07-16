@@ -33,7 +33,7 @@ jobs:
       - name: Save secret
         run: gh secret set TESTING_SECRET --body "$DATABRICKS_TOKEN" 
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       
       - name: test-run
