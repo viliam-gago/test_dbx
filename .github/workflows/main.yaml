@@ -10,7 +10,9 @@ jobs:
      
   ingest:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions: 
+      issues: write
+      pull-requests: write
     # strategy: 
     #   matrix:
     #     notebook: 
