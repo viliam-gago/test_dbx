@@ -49,19 +49,19 @@ jobs:
           git-commit: ${{ github.sha }}
           existing-cluster-id: 0703-104318-wm62xcqc    
 
-    next-job: 
-      runs-on: ubuntu-latest
-      needs: ingest
-      steps:
-        - name: Checkout repo
-          uses: actions/checkout@v2
-        - name: test-run
-          uses: databricks/run-notebook@v0
-          with:
-            # workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
-            # workspace-notebook-path: /formula1/ingestion/${{ matrix.notebook }}
-            local-notebook-path: testing/test_notebook.py
-            databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
-            databricks-token: ${{ secrets.TESTING_SECRET }}
-            git-commit: ${{ github.sha }}
-            existing-cluster-id: 0703-104318-wm62xcqc
+  next-job: 
+    runs-on: ubuntu-latest
+    needs: ingest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: test-run
+        uses: databricks/run-notebook@v0
+        with:
+          # workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
+          # workspace-notebook-path: /formula1/ingestion/${{ matrix.notebook }}
+          local-notebook-path: testing/test_notebook.py
+          databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
+          databricks-token: ${{ secrets.TESTING_SECRET }}
+          git-commit: ${{ github.sha }}
+          existing-cluster-id: 0703-104318-wm62xcqc
