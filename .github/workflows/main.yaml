@@ -38,7 +38,7 @@ jobs:
         with:
           # workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
           # workspace-notebook-path: /formula1/ingestion/${{ matrix.notebook }}
-          local-notebook-path: ../../etls/2_landing_to_raw/storyous/payment_method_full
+          local-notebook-path: ../../formula1/ingestion/1.ingest_circuits_file
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
           git-commit: ${{ github.event.pull_request.head.sha }}
