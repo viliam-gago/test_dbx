@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         notebook:
-          - ingest_circuit_file.py
+          - ingest_circuits_file.py
           - 2.ingest_races_file.py
     needs:
       settings
