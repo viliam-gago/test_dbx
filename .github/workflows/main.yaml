@@ -10,9 +10,9 @@ jobs:
      
   ingest:
     runs-on: ubuntu-latest
-    strategy: 
-      matrix:
-        notebook: 
+    # strategy: 
+    #   matrix:
+    #     notebook: 
           
     steps:
       - name: Generate AAD Token
