@@ -46,5 +46,5 @@ jobs:
           local-notebook-path: ../../ingestion/1.ingest_circuits_file
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.TESTING_SECRET }}
-          git-commit: ${{ github.event.pull_request.head.sha }}
+          git-commit: ${{ github.sha }}
           existing-cluster-id: 0703-104318-wm62xcqc    
