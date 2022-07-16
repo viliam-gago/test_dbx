@@ -26,6 +26,8 @@ jobs:
       
       - name: Save secret
         run: gh secret set TESTING_SECRET --body "$DATABRICKS_TOKEN"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
