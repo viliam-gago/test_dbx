@@ -13,23 +13,32 @@ jobs:
     strategy: 
       matrix:
         notebook: 
-          - 1.ingest_circuits_file
-          # - 2.ingest_races_file
-          # - 3.ingest_constructors_file
+          
     steps:
-      - name: echo-token
-        run: echo ${{ secrets.DBX_TOKEN }}    
-     
-      - name: echo-path
-        run: echo /formula1/ingestion/${{ matrix.notebook }}
+      - name: Generate AAD Token
+        run: |
+          echo "DATABRICKS_TOKEN=$(curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+          https://login.microsoftonline.com/a7cc35e3-6244-41fe-a009-e086759d1621/oauth2/v2.0/token \
+          -d 'client_id=9e29305b-2f46-4a77-ac9d-241302d689d5' \
+          -d 'grant_type=client_credentials' \
+          -d 'scope=2ff814a6-3304-4ab8-85cb-cd0e6f879c1d%2F.default' \
+          -d 'client_secret=RaS8Q~F-GHxxaExrHztaqaPuaGoKvXusDOd1jb1y' |  jq -r  '.access_token')" >> $GITHUB_ENV
+
+
+      # - name: echo-token
+      #   run: echo ${{ secrets.DBX_TOKEN }}    
+      #
+      # - name: echo-path
+      #   run: echo /formula1/ingestion/${{ matrix.notebook }}
 
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: ${{ matrix.ingestion }}
+      - name: test-run
         uses: databricks/run-notebook@v0
         with:
-          workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
+          # workspace-notebook-path: /formula1/ingestion/1.ingest_circuits_file
           # workspace-notebook-path: /formula1/ingestion/${{ matrix.notebook }}
+          local-notebook-path: ../../etls/2_landing_to_raw/storyous/payment_method_full
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.DBX_TOKEN }}
           git-commit: ${{ github.event.pull_request.head.sha }}
