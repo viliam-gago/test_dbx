@@ -61,5 +61,4 @@ jobs:
           local-notebook-path: testing/test_notebook.py
           databricks-host: https://adb-8718332331325895.15.azuredatabricks.net
           databricks-token: ${{ secrets.TESTING_SECRET }}
-          git-commit: ${{ github.sha }}
           existing-cluster-id: 0703-104318-wm62xcqc
